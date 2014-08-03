@@ -158,7 +158,7 @@ if __name__ == '__main__':
 
     if frames:
         logger.debug('Starting score calculation for %s' % (''.join(frames)))
-        print bc.calculate(frames)
+        print(bc.calculate(frames))
     else:
         bc.help()
 
