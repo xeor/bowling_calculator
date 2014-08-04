@@ -102,8 +102,12 @@ class BowlingCalculator(object):
 
             logger.debug('Throw %s is %s' % (index + 1, i))
 
-            # The last frame is special. There is no bonus points added..
-            last_frame = True if index + 3 >= frame_count else False
+            # To get the potential last frame.. This is something we need
+            # only if there is a spare or strike in the last frame, which
+            # again, is why it is set to static 3 throws. If there is a
+            # strike or spare, there is always going to be 3 throws in the
+            # last frame..
+            potentially_last_frame = True if index + 3 >= frame_count else False
 
             if i.isdigit():
                 try:
@@ -119,7 +123,7 @@ class BowlingCalculator(object):
                 logger.debug('  Strike - adding 10 points')
                 total_points += 10
 
-                if last_frame:
+                if potentially_last_frame:
                     logger.debug('  We are at the last round, so no bonuses is calculated')
                 else:
                     bonus_points = self._get_points_from_character(frames[index+2]) + self._get_points_from_character(frames[index+1])
@@ -130,7 +134,7 @@ class BowlingCalculator(object):
                 logger.debug('  Spare - adding 10 points')
                 total_points += 10
 
-                if last_frame:
+                if potentially_last_frame:
                     logger.debug('  We are at the last round, so no bonuses is calculated')
                 else:
                     bonus_points = self._get_points_from_character(frames[index+1])
